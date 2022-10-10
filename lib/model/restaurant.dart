@@ -6,7 +6,7 @@ class Restaurants {
   final String description;
   final String pictureId;
   final String city;
-  final double rating;
+  final num rating;
   final Menus menus;
 
   Restaurants(
@@ -18,7 +18,7 @@ class Restaurants {
         required this.rating,
         required this.menus});
 
-  factory Restaurants.fromJson(Map<String, dynamic> json)=>Restaurants(
+  factory Restaurants.fromJson(Map<String, dynamic> json) => Restaurants(
     id: json['id'],
     name: json['name'],
     description: json['description'],
