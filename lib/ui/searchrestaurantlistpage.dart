@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../provider/resto_provider.dart';
 import '../provider/restosearch_provider.dart';
 import '../widgets/cardresto.dart';
 enum ResultState { loading, noData, hasData, error }
@@ -10,9 +8,7 @@ class SearchRestaurantListPage extends StatelessWidget {
   const SearchRestaurantListPage({Key? key}) : super(key: key);
 
   Widget _buildList() {
-    return Container(
-      width: 200,
-      height: 200,
+    return Expanded( child:Container(
       child: Consumer<RestoSearchProvider>(
         builder: (context, state, _) {
           if (state.state == ResultState.loading) {
@@ -47,7 +43,7 @@ class SearchRestaurantListPage extends StatelessWidget {
           }
         },
       ),
-    );
+    ));
   }
 
   @override

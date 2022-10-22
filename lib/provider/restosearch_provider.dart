@@ -20,6 +20,12 @@ class RestoSearchProvider extends ChangeNotifier {
   RestaurantSearchResult get result => _restoSearchResult;
 
   ResultState get state => _state;
+  void changeQuery(String q) {
+    query=q;
+    print(query);
+    fetchSearchResto();
+    notifyListeners();
+  }
 
   Future<dynamic> fetchSearchResto() async {
     try {
