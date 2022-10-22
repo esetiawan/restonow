@@ -24,27 +24,25 @@ class _SearchRestaurantsListScreenState
       appBar: AppBar(
         title: const Text("Restaurant App"),
       ),
-      body: ChangeNotifierProvider<RestoSearchProvider>(
-        create: (context1) => RestoSearchProvider(
-            apiService: ApiService(), query: ""),
-        child: Column(children: <Widget> [
-                      TextField(
-                        autofocus: true,
-                        onChanged: (val) {
-                          Provider.of<RestoSearchProvider>(context, listen: false).
-                            changeQuery(val);
-                        },
-                        decoration: const InputDecoration(labelText: "Topic"),
-                      ),
-                      const SearchRestaurantListPage()]
-                          )
-
-                      ),
-                  );
+      body: Column(
+        children: <Widget>[
+          TextField(
+            autofocus: true,
+            onChanged: (val) {
+              if (val.isNotEmpty) {
+                Provider.of<RestoSearchProvider>(context, listen: false)
+                    .changeQuery(val);
+              }
+            },
+            decoration: const InputDecoration(labelText: "Topic"),
+          ),
+          // const Text("a"),
+          const SearchRestaurantListPage(),
+        ],
+      ),
+    );
   }
 
   @override
-  void initState() {
-
-  }
+  void initState() {}
 }

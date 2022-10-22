@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:resto/data/api/api_service.dart';
+import 'package:resto/provider/restosearch_provider.dart';
 import 'package:resto/ui/restaurantlist.dart';
 import 'package:resto/ui/searchrestaurant.dart';
 import 'ui/detailrestaurant.dart';
@@ -12,21 +15,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Restaurants App',
-        theme: ThemeData(
-            primarySwatch: Colors.blue,
-            visualDensity: VisualDensity.adaptivePlatformDensity),
-        initialRoute: RestaurantListScreen.routeName,
-        routes: {
-          RestaurantListScreen.routeName: (context) =>
-              const RestaurantListScreen(),
-          DetailRestaurantScreen.routeName: (context) => DetailRestaurantScreen(
-              idResto: ModalRoute.of(context)?.settings.arguments as String),
-          SearchRestaurantsListScreen.routeName: (context) =>
-              SearchRestaurantsListScreen(),
-        });
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<RestoSearchProvider>(
+            create: (context1) => RestoSearchProvider(
+                  apiService: ApiService(),
+                  query: "",
+                )),
+      ],
+      child: MaterialApp(
+          title: 'Restaurants App',
+          theme: ThemeData(
+              primarySwatch: Colors.blue,
+              visualDensity: VisualDensity.adaptivePlatformDensity),
+          initialRoute: RestaurantListScreen.routeName,
+          routes: {
+            RestaurantListScreen.routeName: (context) =>
+                const RestaurantListScreen(),
+            DetailRestaurantScreen.routeName: (context) =>
+                DetailRestaurantScreen(
+                    idResto:
+                        ModalRoute.of(context)?.settings.arguments as String),
+            SearchRestaurantsListScreen.routeName: (context) =>
+                SearchRestaurantsListScreen(),
+          }),
+    );
   }
 }
-
-

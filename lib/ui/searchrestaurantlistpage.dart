@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/restosearch_provider.dart';
 import '../widgets/cardresto.dart';
-enum ResultState { loading, noData, hasData, error }
+
+// enum ResultState { loading, noData, hasData, error }
 
 class SearchRestaurantListPage extends StatelessWidget {
   const SearchRestaurantListPage({Key? key}) : super(key: key);
 
   Widget _buildList() {
-    return Expanded( child:Container(
+    return Expanded(
       child: Consumer<RestoSearchProvider>(
         builder: (context, state, _) {
           if (state.state == ResultState.loading) {
@@ -43,13 +44,14 @@ class SearchRestaurantListPage extends StatelessWidget {
           }
         },
       ),
-    ));
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildList(),
-    );
+    return _buildList();
+    // return Scaffold(
+    //   body: _buildList(),
+    // );
   }
 }

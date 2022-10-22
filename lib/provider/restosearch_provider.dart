@@ -6,7 +6,7 @@ enum ResultState { loading, noData, hasData, error }
 
 class RestoSearchProvider extends ChangeNotifier {
   final ApiService apiService;
-  late final String query;
+  String query;
   RestoSearchProvider({required this.apiService, required this.query}) {
     fetchSearchResto();
   }
@@ -21,7 +21,7 @@ class RestoSearchProvider extends ChangeNotifier {
 
   ResultState get state => _state;
   void changeQuery(String q) {
-    query=q;
+    query = q;
     print(query);
     fetchSearchResto();
     notifyListeners();
@@ -33,8 +33,9 @@ class RestoSearchProvider extends ChangeNotifier {
       notifyListeners();
       final resto = await apiService.restaurantSearch(query);
       _state = ResultState.hasData;
+      _restoSearchResult = resto;
       notifyListeners();
-      return _restoSearchResult = resto;
+      return;
     } catch (e) {
       _state = ResultState.error;
       notifyListeners();
