@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resto/provider/restodetail_provider.dart';
 
+import '../widgets/favoritebutton.dart';
+
 class RestaurantDetailPage extends StatelessWidget {
   const RestaurantDetailPage({Key? key}) : super(key: key);
 
@@ -24,7 +26,22 @@ class RestaurantDetailPage extends StatelessWidget {
               body: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Image.network("https://restaurant-api.dicoding.dev/images/medium/${state.result.restaurant.pictureId!}"),
+                      Stack(
+                        children: <Widget>[
+                          Image.network("https://restaurant-api.dicoding.dev/images/medium/${state.result.restaurant.pictureId!}"),
+                          SafeArea(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  const FavoriteButton(),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                       Padding(
                           padding: const EdgeInsets.all(10),
                           child: Column(
@@ -32,8 +49,6 @@ class RestaurantDetailPage extends StatelessWidget {
                             children: [
                               Text(
                                 state.result.restaurant.description,
-                                maxLines: 4,
-                                overflow: TextOverflow.ellipsis,
                               ),
                               Divider(color: Colors.grey),
                               Icon(Icons.add_location),

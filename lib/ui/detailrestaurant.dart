@@ -18,9 +18,6 @@ class _DetailRestaurantScreenState extends State<DetailRestaurantScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Restaurant App"),
-      ),
       body:
       ChangeNotifierProvider<RestoDetailProvider>(
         create: (_) => RestoDetailProvider(apiService: ApiService(), idResto: widget.idResto),

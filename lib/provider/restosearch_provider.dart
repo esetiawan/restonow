@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import '../data/api/api_service.dart';
 import '../data/model/restaurant_search.dart';
@@ -36,10 +38,15 @@ class RestoSearchProvider extends ChangeNotifier {
       _restoSearchResult = resto;
       notifyListeners();
       return;
-    } catch (e) {
+    } on SocketException catch (e) {
       _state = ResultState.error;
       notifyListeners();
-      return _message = 'Error --> $e';
+      return _message = 'No Internet Connection';
+    } on Error catch (e) {
+      _state = ResultState.error;
+      notifyListeners();
+      return _message = 'Failed to Load List';
     }
+
   }
 }
