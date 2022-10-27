@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resto/data/api/api_service.dart';
+import 'package:resto/data/preferences/preferences_helper.dart';
 import 'package:resto/provider/preferences_provider.dart';
 import 'package:resto/provider/restosearch_provider.dart';
 import 'package:resto/ui/restaurantlist.dart';
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
                   query: "",
                 )),
         ChangeNotifierProvider<PreferencesProvider>(
-            create: (context1) => PreferencesProvider(preferencesHelper: null)),
+            create: (context1) =>
+                PreferencesProvider(preferencesHelper: PreferencesHelper())),
       ],
       child: MaterialApp(
           title: 'Restaurants App',
