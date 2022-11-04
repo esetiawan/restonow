@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resto/ui/restaurantlistpage.dart';
@@ -23,19 +22,29 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
       appBar: AppBar(
         title: const Text("Restaurant App"),
         actions: <Widget>[
-          IconButton(onPressed: (){
-            Navigator.pushNamed(context, SearchRestaurantsListScreen.routeName);
-          }, icon: const Icon(Icons.search))
+          IconButton(
+              onPressed: () async {
+                Navigator.pushNamed(
+                    context, SearchRestaurantsListScreen.routeName);
+                // final NotificationHelper notificationHelper =
+                //     NotificationHelper();
+                // await notificationHelper.showNotification(
+                //     flutterLocalNotificationsPlugin,
+                //     Restaurant(
+                //         id: "1",
+                //         name: "hallo",
+                //         description: "aa",
+                //         city: "aaa",
+                //         pictureId: "aa",
+                //         rating: 4));
+              },
+              icon: const Icon(Icons.search))
         ],
       ),
-      body:
-          ChangeNotifierProvider<RestoProvider>(
-          create: (_) => RestoProvider(apiService: ApiService()),
-          child: const RestaurantListPage(),
-        ),
+      body: ChangeNotifierProvider<RestoProvider>(
+        create: (_) => RestoProvider(apiService: ApiService()),
+        child: const RestaurantListPage(),
+      ),
     );
   }
 }
-
-
-
