@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../common/navigation.dart';
 import '../data/model/restaurant.dart';
 import '../ui/detailrestaurant.dart';
 
@@ -44,8 +45,8 @@ class CardResto extends StatelessWidget {
             ],
           ),
           onTap: () {
-            Navigator.pushNamed(context, DetailRestaurantScreen.routeName,
-                arguments: resto.id);
+            Navigation.intentWithData(DetailRestaurantScreen.routeName,
+                resto.id);
           }));
   }
 }

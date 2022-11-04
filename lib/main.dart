@@ -1,22 +1,42 @@
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
+import 'package:resto/common/navigation.dart';
 import 'package:resto/data/api/api_service.dart';
 import 'package:resto/data/preferences/preferences_helper.dart';
 import 'package:resto/provider/preferences_provider.dart';
 import 'package:resto/provider/restosearch_provider.dart';
+import 'package:resto/provider/scheduling_provider.dart';
 import 'package:resto/ui/restaurantlist.dart';
 import 'package:resto/ui/searchrestaurant.dart';
 import 'package:resto/ui/setting.dart';
+import 'package:resto/utils/background_service.dart';
+import 'package:resto/utils/notification_helper.dart';
 
 import 'ui/detailrestaurant.dart';
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final NotificationHelper _notificationHelper = NotificationHelper();
+  final BackgroundService _service = BackgroundService();
+  _service.initializeIsolate();
+  await AndroidAlarmManager.initialize();
+  await _notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final NotificationHelper _notificationHelper=NotificationHelper();
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -29,8 +49,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<PreferencesProvider>(
             create: (context1) =>
                 PreferencesProvider(preferencesHelper: PreferencesHelper())),
+        ChangeNotifierProvider<SchedulingProvider>(
+            create: (context1) => SchedulingProvider()),
       ],
       child: MaterialApp(
+          navigatorKey: navigatorKey,
           title: 'Restaurants App',
           theme: ThemeData(
               primarySwatch: Colors.blue,
@@ -81,5 +104,17 @@ class MyApp extends StatelessWidget {
             }),
           )),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _notificationHelper.configureSelectNotificationSubject(DetailRestaurantScreen.routeName);
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    super.dispose();
   }
 }
