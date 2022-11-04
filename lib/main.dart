@@ -15,16 +15,18 @@ import 'package:resto/utils/background_service.dart';
 import 'package:resto/utils/notification_helper.dart';
 
 import 'ui/detailrestaurant.dart';
+
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final NotificationHelper _notificationHelper = NotificationHelper();
+  //final NotificationHelper _notificationHelper = NotificationHelper();
   final BackgroundService _service = BackgroundService();
   _service.initializeIsolate();
   await AndroidAlarmManager.initialize();
-  await _notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
+  await NotificationHelper.instance
+      .initNotifications(flutterLocalNotificationsPlugin);
   runApp(const MyApp());
 }
 
@@ -36,7 +38,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final NotificationHelper _notificationHelper=NotificationHelper();
+  // final NotificationHelper _notificationHelper = NotificationHelper();
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -109,7 +111,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _notificationHelper.configureSelectNotificationSubject(DetailRestaurantScreen.routeName);
+    NotificationHelper.instance
+        .configureSelectNotificationSubject(DetailRestaurantScreen.routeName);
   }
 
   @override
