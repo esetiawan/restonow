@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resto/provider/restodetail_provider.dart';
 
-import '../widgets/favoritebutton.dart';
+import '../data/model/restaurant.dart';
+import '../provider/dbprovider.dart';
 
-class RestaurantDetailPage extends StatelessWidget {
-  const RestaurantDetailPage({Key? key}) : super(key: key);
+class RestaurantDetailPage extends StatefulWidget {
+  RestaurantDetailPage(String this.idResto, {Key? key}) : super(key: key);
+  String idResto;
+  @override
+  State<RestaurantDetailPage> createState() => _RestaurantDetailPageState();
+}
 
+class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
+  bool isFavorite = false;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -28,14 +35,28 @@ class RestaurantDetailPage extends StatelessWidget {
                     children: [
                       Stack(
                         children: <Widget>[
-                          Image.network("https://restaurant-api.dicoding.dev/images/medium/${state.result.restaurant.pictureId!}"),
+                          Image.network("https://restaurant-api.dicoding.dev/images/medium/${state.result.restaurant.pictureId}"),
                           SafeArea(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  const FavoriteButton(),
+                                  IconButton(icon: Icon(isFavorite? Icons.favorite : Icons.favorite_border),
+                                    color:Colors.red,
+                                    highlightColor: Colors.red,
+                                    onPressed: (){
+                                      setState(() {
+                                        isFavorite = !isFavorite;
+                                      });
+                                      if (isFavorite) {
+                                      Provider.of<DbProvider>(context,listen:false).addResto(
+                                          Restaurant(id:state.result.restaurant.id,name:state.result.restaurant.name,
+                                              description:state.result.restaurant.description,pictureId:state.result.restaurant.pictureId,
+                                              city:state.result.restaurant.city,rating:state.result.restaurant.rating));
+                                    }else {
+                                        Provider.of<DbProvider>(context,listen:false).deleteResto(state.result.restaurant.id);
+                                    }}),
                                 ],
                               ),
                             ),
@@ -130,4 +151,8 @@ class RestaurantDetailPage extends StatelessWidget {
       },
     );
   }
+  // @override
+  // void initState() {
+  //   isFavorite = Provider.of<DbProvider>(context,listen:false).getRestoById(widget.idResto) as bool;
+  // }
 }

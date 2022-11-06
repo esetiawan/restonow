@@ -5,6 +5,7 @@ import 'menus.dart';
 class RestaurantDetail {
   bool? error;
   String? message;
+  bool isFavorite = false;
   RestaurantMore restaurant;
 
   RestaurantDetail({this.error, this.message, required this.restaurant});

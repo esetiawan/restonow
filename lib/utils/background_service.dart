@@ -1,4 +1,5 @@
 import 'dart:isolate';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:resto/data/api/api_service.dart';
@@ -24,8 +25,9 @@ class BackgroundService {
     print('Alarm aktif');
     var result = await ApiService().restaurants();
     final NotificationHelper notificationHelper = NotificationHelper();
+    var randomIdx = Random().nextInt(result.restaurants.length);
     await notificationHelper.showNotification(
-        flutterLocalNotificationsPlugin, result.restaurants[0]);
+        flutterLocalNotificationsPlugin, result.restaurants[randomIdx]);
     _uiSendPort ??= IsolateNameServer.lookupPortByName(_isolateName);
     _uiSendPort?.send(null);
   }

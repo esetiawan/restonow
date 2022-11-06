@@ -5,9 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:resto/common/navigation.dart';
 import 'package:resto/data/api/api_service.dart';
 import 'package:resto/data/preferences/preferences_helper.dart';
+import 'package:resto/provider/dbprovider.dart';
 import 'package:resto/provider/preferences_provider.dart';
 import 'package:resto/provider/restosearch_provider.dart';
 import 'package:resto/provider/scheduling_provider.dart';
+import 'package:resto/ui/restaurantfavelist.dart';
 import 'package:resto/ui/restaurantlist.dart';
 import 'package:resto/ui/searchrestaurant.dart';
 import 'package:resto/ui/setting.dart';
@@ -51,6 +53,8 @@ class _MyAppState extends State<MyApp> {
                 PreferencesProvider(preferencesHelper: PreferencesHelper())),
         ChangeNotifierProvider<SchedulingProvider>(
             create: (context1) => SchedulingProvider()),
+        ChangeNotifierProvider(
+            create: (context)=>DbProvider()),
       ],
       child: MaterialApp(
           navigatorKey: navigatorKey,
@@ -62,6 +66,8 @@ class _MyAppState extends State<MyApp> {
           routes: {
             RestaurantListScreen.routeName: (context) =>
                 const RestaurantListScreen(),
+            RestaurantFaveListScreen.routeName: (context) =>
+              const RestaurantFaveListScreen(),
             DetailRestaurantScreen.routeName: (context) =>
                 DetailRestaurantScreen(
                     idResto:
@@ -93,7 +99,7 @@ class _MyAppState extends State<MyApp> {
                       break;
                     case 1:
                       Navigator.pushNamed(
-                          context, RestaurantListScreen.routeName);
+                          context, RestaurantFaveListScreen.routeName);
                       break;
                     case 2:
                       Navigator.pushNamed(context, SettingScreen.routeName);

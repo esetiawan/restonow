@@ -21,7 +21,7 @@ class _DetailRestaurantScreenState extends State<DetailRestaurantScreen> {
       body:
       ChangeNotifierProvider<RestoDetailProvider>(
         create: (_) => RestoDetailProvider(apiService: ApiService(), idResto: widget.idResto),
-        child: const RestaurantDetailPage(),
+        child: RestaurantDetailPage(widget.idResto),
       ),
     );
   }

@@ -46,8 +46,8 @@ class NotificationHelper {
         ticker: 'ticker',
         styleInformation: const DefaultStyleInformation(true, true));
     var titleNotification = "<b> Resto Update </b>";
-    var titleTodo = resto.name;
-    await flutterLocalNotificationsPlugin.show(0, titleNotification, titleTodo,
+    var titleResto = resto.name;
+    await flutterLocalNotificationsPlugin.show(0, titleNotification, titleResto,
         NotificationDetails(android: androidPlatformChannelSpecifics),
         payload: jsonEncode(resto.toJson()));
   }
